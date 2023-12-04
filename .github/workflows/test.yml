@@ -1,0 +1,20 @@
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '42 0 * * 1' # At 00:42 on Monday
+
+name: build
+
+jobs:
+  check:
+    name: Check for duplicate symbols during linking problem
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+      - run: ./run.sh
+      - run: PROFILE='debug' ./run.sh
